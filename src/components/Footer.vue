@@ -66,37 +66,61 @@
       </div>
       <div class="flex flex-col items-center gap-1">
         <div>
-          <a 
-            :href="pkg.repositoryUrl" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            class="font-semibold hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors"
-          >Uptime-Status</a> Version {{ pkg.version }}
-        </div>
-        <div>
-          基于 <a 
-            href="https://uptimerobot.com" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            class="font-semibold hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors"
-          >UptimeRobot</a> 接口 | 检测频率 5 分钟
-        </div>
-        <div>
-          <a 
-            href="https://beian.miit.gov.cn/"
+          <a
+            :href="pkg.repositoryUrl"
             target="_blank"
             rel="noopener noreferrer"
             class="font-semibold hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors"
-          >
-            豫ICP备-2024073493-1号
-          </a> | 
-          <a 
-            href="https://elykia.cn"
+          >Uptime-Status</a> {{ t('footer.version') }} {{ pkg.version }}
+        </div>
+        <div>
+          {{ t('footer.poweredBy') }} <a
+            href="https://uptimerobot.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-semibold hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors"
+          >{{ t('footer.uptimeRobot') }}</a> {{ t('footer.apiInterface') }} | {{ t('footer.checkFrequency') }}
+        </div>
+        <div>
+          {{ t('footer.copyright') }} © {{ pkg['start-year'] }} - {{ new Date().getFullYear() }} <a
+            :href="my_info.personalWebsite"
             target="_blank"
             rel="noopener noreferrer"
             class="font-semibold hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors"
           >
             Elykia
+          </a>
+          <template v-if="my_info.icpNumber">
+            |
+            <a
+              :href="my_info.icpWebsite"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-semibold hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors"
+            >
+              {{ my_info.icpNumber }}
+            </a>
+          </template>
+          <template v-if="my_info.publicSecurityNumber">
+            |
+            <a
+              :href="my_info.publicSecurityWebsite"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-semibold hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors"
+            >
+              {{ my_info.publicSecurityNumber }}
+            </a>
+          </template>
+        </div>
+        <div>
+          <a
+            :href="my_info.personalWebsite"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-semibold hover:text-emerald-500 dark:hover:text-emerald-400 transition-colors"
+          >
+            {{ my_info.personalWebsite }}
           </a>
         </div>
       </div>
@@ -106,9 +130,12 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { Icon } from '@iconify/vue'
 import pkg from '../../package.json'
 import my_info from '../../my-info.json' 
+
+const { t } = useI18n()
 
 /**
  * 控制返回顶部按钮的显示
@@ -140,4 +167,4 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
 })
-</script> 
+</script>
